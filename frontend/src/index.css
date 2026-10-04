@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --font-serif: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --background: #F1EADA;
+  --foreground: #1C2E26;
+  --text-primary: #1C2E26;
+  --text-secondary: #4B5A52;
+
+  /* Old-money palette: turquoise, forest green, sapphire blue, antique gold, off-white */
+  --turquoise: #0F8B8B;
+  --forest: #1F5C4A;
+  --sapphire: #2C4A7C;
+  --gold: #C9A227;
+  --ivory: #F1EADA;
+  --card-surface: #F8F3E7;
+  --alert: #9B2C2C;
+}
+
+@keyframes glow {
+    0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 2px rgba(201, 162, 39, 0.3)); }
+    50% { opacity: 1; filter: drop-shadow(0 0 8px rgba(201, 162, 39, 0.5)); }
+}
+@keyframes float-up {
+    0% { opacity: 0; transform: translateY(6px); filter: blur(2px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.light-glow { animation: glow 2s ease-in-out infinite; }
+.word-float {
+    animation: float-up 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    will-change: transform, opacity, filter;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+html, body {
+  width: 100%;
+  background: var(--background);
+}
+
+body {
+  color: var(--foreground);
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background-color: rgba(201, 162, 39, 0.25);
+}
+
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb {
+  background: #D7CFB8;
+  border: 3px solid var(--background);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover { background: #C2B897; }
+
+/* ---------------------------------------------------------------------- */
+/* Glass panel, frosted-card recipe tuned for the ivory background        */
+/* ---------------------------------------------------------------------- */
+.glass-card {
+  background: rgba(248, 243, 231, 0.82);
+  border: 1px solid rgba(28, 46, 38, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 1px 2px rgba(28, 46, 38, 0.03), 0 20px 48px rgba(28, 46, 38, 0.06);
+}
+
+/* Full-screen ambient glow border: the original spinning conic-gradient
+   mechanism, recolored into the brand's gold/turquoise/sapphire trio so it
+   reads as premium heritage rather than neon. */
+.glue-border {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  padding: 4px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.glue-border::before, .glue-border::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 220vw; height: 220vh;
+  transform: translate(-50%, -50%);
+}
+.glue-border::before {
+  background: conic-gradient(#fff, #C9A227 8%, #fff 35%, #fff 50%, #0F8B8B 62%, #fff 88%);
+  animation: spin 12s linear infinite;
+  opacity: 0.5;
+}
+.glue-border::after {
+  background: conic-gradient(transparent, #2C4A7C 15%, transparent 35%, transparent 50%, #C9A227 65%, transparent 85%);
+  animation: spin-reverse 16s linear infinite;
+  filter: blur(10px);
+  opacity: 0.3;
+}
+@keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes spin-reverse { to { transform: translate(-50%, -50%) rotate(-360deg); } }
+
+.glue-ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -40;
+  background:
+    radial-gradient(900px circle at 85% -5%, rgba(201, 162, 39, 0.06), transparent 55%),
+    radial-gradient(800px circle at -5% 90%, rgba(15, 139, 139, 0.05), transparent 55%);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Scan grid overlay motifs                                               */
+/* ---------------------------------------------------------------------- */
+@keyframes scan-sweep {
+  0% { transform: translateY(-10%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(110%); opacity: 0; }
+}
+.scan-sweep-line { animation: scan-sweep 3.2s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.85); opacity: 0.9; }
+  70% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.pulse-ring { animation: pulse-ring 2s cubic-bezier(0.2, 0.6, 0.4, 1) infinite; }
+
+@keyframes dash-flow { to { stroke-dashoffset: -24; } }
+.dash-flow { stroke-dasharray: 6 6; animation: dash-flow 1.2s linear infinite; }
+
+/* Leaflet map container sizing guard */
+.leaflet-container {
+  font-family: var(--font-sans);
+  background: #F0ECE2;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Print / "Download Report (PDF)" — uses the browser's own print engine  */
+/* so maps, gradients, and blur render exactly as on screen instead of a  */
+/* canvas screenshot approximation.                                      */
+/* ---------------------------------------------------------------------- */
+@media print {
+  .no-print, header, footer, #faq {
+    display: none !important;
+  }
+  .glue-border, .glue-ambient {
+    display: none !important;
+  }
+  body, .report-content {
+    background: #fff !important;
+  }
+  .glass-card {
+    background: #fff !important;
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    backdrop-filter: none !important;
+    break-inside: avoid;
+  }
+  .report-content {
+    padding-top: 0 !important;
+  }
+  a[href]::after {
+    content: '';
+  }
+}
+

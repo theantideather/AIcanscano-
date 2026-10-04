@@ -1,0 +1,25 @@
+[build]
+  command = "npm install --prefix frontend && npm run build --prefix frontend"
+  publish = "frontend/dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Keep the frontend's existing relative fetch("/analyze") etc. working
+# unchanged in production by routing those exact paths to the single
+# Express-in-a-function handler.
+[[redirects]]
+  from = "/analyze"
+  to = "/.netlify/functions/api"
+  status = 200
+
+[[redirects]]
+  from = "/teleconsult"
+  to = "/.netlify/functions/api"
+  status = 200
+
+[[redirects]]
+  from = "/health"
+  to = "/.netlify/functions/api"
+  status = 200

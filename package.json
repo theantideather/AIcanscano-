@@ -1,0 +1,31 @@
+{
+  "name": "aicanscano-plus",
+  "version": "2.0.0",
+  "description": "AICanScanO-Plus — guided oral cancer / OPMD / OSMF screening with clinical-variable fusion and region detection",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "concurrently \"node server.js\" \"cd frontend && npm run dev\"",
+    "build": "cd frontend && npm run build",
+    "frontend:install": "cd frontend && npm install"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0",
+    "axios": "^1.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.0",
+    "express": "^4.21.0",
+    "multer": "^1.4.5-lts.1",
+    "serverless-http": "^4.0.0"
+  },
+  "keywords": [
+    "oral-cancer",
+    "screening",
+    "AI",
+    "health"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
